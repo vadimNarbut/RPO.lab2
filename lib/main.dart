@@ -1,7 +1,23 @@
+import 'dart:io';
 import 'dart:math';
 
-abstract class Shape {
-  double calculateArea();
+class CustomException implements Exception{
+  String errorMessage() => 'некоректные значения параметров';
+}
+
+class Shape{
+  double width;
+  double heigth;
+
+  Shape(this.width, this.heigth){
+    if(width <= 0 || heigth <= 0){
+      throw CustomException();
+    }
+  }
+
+  double calculateArea(){
+    return width * heigth;
+  }
 }
 
 // Интерфейс PerimeterCalculation
@@ -46,70 +62,6 @@ abstract class Shape3D{
   }
 }
 
-// Класс Square, реализующий интерфейс PerimeterCalculation
-class Square extends Shape with PrintDetailsMixin implements PerimetrCalculation  {
-  double side;
-  int width;
-  int heigth;
-
-  Square(this.width, this.heigth, this.side);
-
-  //именованный конструктор
-  Square.fromWidthAndHeigth(int w, int h, double s) : width = w, heigth = h, side = s;
-
-  @override
-  double calculateArea() {
-    return side * side;
-  }
-
-  @override
-  double calcucationPerimetr() {
-    return 4 * side;
-  }
-
-}
-
-class Rectangle extends Shape {
-  double width;
-  double height;
-
-  double get getWidth => width;
-  double get getHeight => height;
-
-  set setWidth(double value) {
-    width = value;
-  }
-
-  set setHeight(double value) {
-    height = value;
-  }
-
-
-  Rectangle(this.width, this.height);
-
-  @override
-  double calculateArea() {
-    return width * height;
-  }
-}
-
-// Класс Circle с использованием статических полей и функций
-class Circle extends Shape {
-  static const  double piValue = 3.14;
-  static int diametr = 4;
-  double radius;
-
-  Circle(this.radius);
-
-  static double calculateAreaPi(){
-    return piValue * diametr;
-  }
-
-  @override
-  double calculateArea() {
-    return pi * radius * radius;
-  }
-}
 
 // Класс Cube, наследуемый от Shape3D
 class Cube extends Shape3D {
@@ -137,61 +89,17 @@ class Sphere extends Shape3D{
 }
 
 void main() {
-  var square = Square(5, 5, 5);
-  var perimeter = square.calcucationPerimetr();
-
-  var rectangle = Rectangle(4, 6);
-  var circle = Circle(3);
-
-  square.printPerimeter(perimeter);
-
-  print('Площадь квадрата: ${square.calculateArea()}');
-  print('Площадь прямоуголльника: ${rectangle.calculateArea()}');
-  print('площадь круга: ${circle.calculateArea()}');
-
-  Cube cube = Cube(5);
-  Sphere sphere = Sphere(3);
-
-  print('Объем кубa: ${cube.calculateVolume()}');
-  print('Объем сферы: ${sphere.calculateVolume()}');
-
-  Sphere sphere1 = Sphere(5);
-  sphere1.functionWithBoolParameter(true);
-  sphere1.functionWithDoubleParameter(3.14);
-  sphere1.functionWithIntParameter(12124);
-  sphere1.functionWithStringParameter('hi');
-
-  //создание массива обьектов класса Square
-  var shapes = [
-    Square(1, 2, 3),
-    Square(2, 3, 5),
-    Square(3, 6, 3),
-    Square(6, 1, 3),
-    Square(6, 1, 3),
-  ];
-
-  //Вывод площадей обьектов класса Square
-  for(var shape in shapes){
-    print('Площадь: ${shape.calculateArea()}');
-  }
-
-  //Использование множества для хранения уникальных значений
-  Set<double> uniqeSideLength = shapes.map((shape) => (shape as Square).side).toSet();
-  print('Уникальные длины сторон: $uniqeSideLength');
-
-  //Пример использования оператора continue
-  for(int i = 1; i <= 5; i++){
-    if(i == 3){
-      continue;
+  try {
+    var shape = Shape(10, 0); // Попытка создать объект с некорректными параметрами
+    var area = shape.calculateArea(); // Вызов метода calculateArea()
+    print('Площадь фигуры: $area');
+  } catch (e) {
+    if (e is CustomException) {
+      print('Ошибка: ${e.errorMessage()}');
+    } else if (e is IntegerDivisionByZeroException) {
+      print('Ошибка: Деление на ноль');
+    } else {
+      print('Произошла ошибка: $e');
     }
-    print('Пример continue: $i');
-  }
-
-  //Пример использования оператора break
-  for(int j = 1; j <= 5; j++){
-    if(j == 4){
-      break;
-    }
-    print('Пример использования break: $j');
   }
 }
