@@ -178,4 +178,20 @@ void main() {
   //Использование множества для хранения уникальных значений
   Set<double> uniqeSideLength = shapes.map((shape) => (shape as Square).side).toSet();
   print('Уникальные длины сторон: $uniqeSideLength');
+
+  //Пример использования оператора continue
+  for(int i = 1; i <= 5; i++){
+    if(i == 3){
+      continue;
+    }
+    print('Пример continue: $i');
+  }
+
+  //Пример использования оператора break
+  for(int j = 1; j <= 5; j++){
+    if(j == 4){
+      break;
+    }
+    print('Пример использования break: $j');
+  }
 }
