@@ -167,6 +167,7 @@ void main() {
     Square(2, 3, 5),
     Square(3, 6, 3),
     Square(6, 1, 3),
+    Square(6, 1, 3),
   ];
 
   //Вывод площадей обьектов класса Square
