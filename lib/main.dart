@@ -160,4 +160,21 @@ void main() {
   sphere1.functionWithDoubleParameter(3.14);
   sphere1.functionWithIntParameter(12124);
   sphere1.functionWithStringParameter('hi');
+
+  //создание массива обьектов класса Square
+  var shapes = [
+    Square(1, 2, 3),
+    Square(2, 3, 5),
+    Square(3, 6, 3),
+    Square(6, 1, 3),
+  ];
+
+  //Вывод площадей обьектов класса Square
+  for(var shape in shapes){
+    print('Площадь: ${shape.calculateArea()}');
+  }
+
+  //Использование множества для хранения уникальных значений
+  Set<double> uniqeSideLength = shapes.map((shape) => (shape as Square).side).toSet();
+  print('Уникальные длины сторон: $uniqeSideLength');
 }
